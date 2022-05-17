@@ -1,0 +1,19 @@
+.number-button{
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dcdcdc;
+
+    &:hover{
+        box-shadow: 0px 0px 6px rgba(0,0,0,.1);
+    }
+
+    &.double-width{
+        width: 80px;
+    }
+}
+
+
