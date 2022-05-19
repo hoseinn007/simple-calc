@@ -1,10 +1,12 @@
 import React from "react";
 import './style.scss'
 
-interface IIdicatorProps{}
+interface IIndicatorProps{
+    data:number|string,
+}
 
-const Indicator:React.FC<IIdicatorProps>=props=>{
-    return(<div className="indicator">1234567890</div>)
+const Indicator:React.FC<IIndicatorProps>=props=>{
+    return(<div className="indicator">{props.data}</div>)
 };
 
 export default Indicator;
