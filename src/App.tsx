@@ -1,10 +1,14 @@
 import './App.scss';
-import NumberKeyWrapper from './components/NumberKeyWrapper';
+import Indicator from './components/Indicator';
+import KeypadWrapper from './components/KeypadWrapper';
+
+
 
 function App() {
   return (
     <div className="test"> 
-<NumberKeyWrapper onSelect={(value)=>{console.log(value)}}/>
+    <Indicator/>
+    <KeypadWrapper onSelect={(value)=>{console.log(value)}}/>
     </div>
   );
 }
