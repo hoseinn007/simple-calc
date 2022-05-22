@@ -5,12 +5,13 @@ import './style.scss';
 
 interface IKeypadWrapperProps{
     onSelect:(value:string|number)=>void,
+    onOperator:(value:string)=>void,
 }
 
 const KeypadWrapper:React.FC<IKeypadWrapperProps>=props=>{
     return(<div className="keypad-wrapper">
         <NumberKeyWrapper onClick={props.onSelect} />
-        <OperatorKeyWrapper onClick={props.onSelect}/>
+        <OperatorKeyWrapper onClick={props.onOperator}/>
     </div>)
 };
 
