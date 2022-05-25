@@ -7,43 +7,62 @@ import KeypadWrapper from './components/KeypadWrapper';
 
 const App=()=> {
   const initial:string|number=''
-  const initialNumber:number=0
-  const [inputNumber, setInputNumber]= useState<string>(initial)
-  const [numbers, setNumbers]= useState<number>(initialNumber)
+  const initialNumber:string=''
+  const [inputNumber1, setInputNumber1]= useState<any>(initial)
+  const [inputNumber2, setInputNumber2]= useState<any>(initial)
+  const [input, setInput]=useState<any>('')
+  const [operator, setOperator]= useState<string>(initialNumber)
+  const [result,setResult]=useState<any>('')
   
-  const onSelectHandler=(pushedNumber:string|number)=>{
-    // console.log(pushedNumber)
-    setInputNumber((prevInputNumber)=>{
-      return (prevInputNumber + pushedNumber)
-    });
-    // console.log('a'+inputNumber);
-  }
+  const onSelectHandler=(pushedButton:any)=>{
 
-
-  const onOperatorHandler=(pushedOperator:string)=>{
-    switch(pushedOperator){
-      case '+': console.log('+ '+ parseInt(inputNumber));break;
-      case '*': console.log('* '+ parseInt(inputNumber));break;
-      case '/': console.log('/ '+ parseInt(inputNumber));break;
-      case '%': console.log('% '+ parseInt(inputNumber));break;
-      case '-': console.log('- '+ parseInt(inputNumber));break;
-      default : console.log("not valid operation");break;
+   
+    setInput((prevInput:any)=>{
+      return (prevInput + pushedButton)
+    })
+    if( pushedButton==='+'){
+      setOperator(()=>{return(pushedButton)})
+      // setInputNumber1((prevInputNumber1:any)=>{return(prevInputNumber1 + pushedButton)})
+    }   
+    if(operator!=='+'){
+      setInputNumber1((prevInputNumber1:any)=>{return(prevInputNumber1 + pushedButton)})
+    }
+    if(operator==='+'){
+      setInputNumber2((prevInputNumber2:any)=>{return(prevInputNumber2 + pushedButton)})
     }
 
 
-
-
-
-    // console.log('a' + inputNumber)
-    // console.log('b'+numbers)
-    // setInputNumber('')
-    // return(console.log('c'+numbers))//this item uploaded one step late
-  
+  //   if(pushedButton === '+' ){
+  //     switch(pushedButton){
+  //       case '+': setInputNumber2((prevInputNumber2:any)=>{return(prevInputNumber2 + pushedButton)} ) ;break;
+  //       // case '-': setInputNumber2((prevInputNumber2:string)=>{return(parseInt(inputNumber1) - parseInt(prevInputNumber2 + pushedButton))} ) ;break;
+  //       // case '*': setInputNumber2((prevInputNumber2:string)=>{return(parseInt(inputNumber1) * parseInt(prevInputNumber2 + pushedButton))} ) ;break;
+  //       // case '/': setInputNumber2((prevInputNumber2:string)=>{return(parseInt(inputNumber1) / parseInt(prevInputNumber2 + pushedButton))} ) ;break;
+  //       // case '%': setInputNumber2((prevInputNumber2:string)=>{return(parseInt(inputNumber1) % parseInt(prevInputNumber2 + pushedButton))} ) ;break;
+  //       // case 'C': setInput('') ;break;
+  //     }
+  //   }else{
+      
+  //   // console.log(inputNumber1)
+  // }
+    
+    // console.log('a'+inputNumber);
+    if(inputNumber2.length > 0){
+      // console.log(inputNumber2)
+      (setResult(()=>{return(parseInt(inputNumber1) + parseInt(inputNumber2))}) )
+    }
   }
+
+  const onOperatorHandler=(pushedOperator:string)=>{
+    setOperator(pushedOperator);
+    
+  }
+
   return (
     <div className="test"> 
-    <Indicator data={inputNumber}/>
-    <KeypadWrapper onSelect={onSelectHandler} onOperator={onOperatorHandler}/>
+    <Indicator data={input}/>
+    <Indicator data={result}/>
+    <KeypadWrapper onSelect={onSelectHandler} onOperator={onSelectHandler}/>
     </div>
   );
 }
