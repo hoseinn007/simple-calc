@@ -1,70 +1,66 @@
-import { useState } from 'react';
-import './App.scss';
-import Indicator from './components/Indicator';
-import KeypadWrapper from './components/KeypadWrapper';
+import { useState } from "react";
+import "./App.scss";
+import Indicator from "./components/Indicator";
+import KeypadWrapper from "./components/KeypadWrapper";
 
+const App = () => {
+  const [input, setInput] = useState<string>("0");
 
+  const calculate = () => {
+    const splitedInput = input.split(" ");
+    let result = Number(splitedInput[0]);
+    splitedInput.forEach((item: string | number, index: number) => {
+      switch (item) {
+        case "*":
+          result *= Number(splitedInput[2]);
+          return;
+        case "+":
+          result += Number(splitedInput[2]);
+          return;
+        case "-":
+          result -= Number(splitedInput[2]);
+          return;
+        case "/":
+          result /= Number(splitedInput[2]);
+          return;
+        case "%":
+          result %= Number(splitedInput[2]);
+          return;
+      }
+    });
+    return result;
+  };
 
-const App=()=> {
-  const initial:string|number=''
-  const initialNumber:string=''
-  const [inputNumber1, setInputNumber1]= useState<any>(initial)
-  const [inputNumber2, setInputNumber2]= useState<any>(initial)
-  const [input, setInput]=useState<any>('')
-  const [operator, setOperator]= useState<string>(initialNumber)
-  const [result,setResult]=useState<any>('')
-  
-  const onSelectHandler=(pushedButton:any)=>{
-
-   
-    setInput((prevInput:any)=>{
-      return (prevInput + pushedButton)
-    })
-    if( pushedButton==='+'){
-      setOperator(()=>{return(pushedButton)})
-      // setInputNumber1((prevInputNumber1:any)=>{return(prevInputNumber1 + pushedButton)})
-    }   
-    if(operator!=='+'){
-      setInputNumber1((prevInputNumber1:any)=>{return(prevInputNumber1 + pushedButton)})
+  const onSelectHandler = (pushedButton: string | number) => {
+    if (pushedButton === " = ") {
+      const res = calculate();
+      setInput(res + "");
+      return;
     }
-    if(operator==='+'){
-      setInputNumber2((prevInputNumber2:any)=>{return(prevInputNumber2 + pushedButton)})
+    if (pushedButton === " C ") return setInput("0");
+
+    const splitedInput = input.split(" ");
+    if (splitedInput[2] === "" && pushedButton === 0) return;
+    // @ts-ignore
+    if (isNaN(pushedButton) && splitedInput.length > 2) {
+      const res = calculate();
+      return setInput(res + "" + pushedButton);
     }
 
+    setInput((prevInput: string) => {
+      if (prevInput === "0" && pushedButton === " - ") return "-";
+      if (prevInput === "0") return pushedButton + "";
 
-  //   if(pushedButton === '+' ){
-  //     switch(pushedButton){
-  //       case '+': setInputNumber2((prevInputNumber2:any)=>{return(prevInputNumber2 + pushedButton)} ) ;break;
-  //       // case '-': setInputNumber2((prevInputNumber2:string)=>{return(parseInt(inputNumber1) - parseInt(prevInputNumber2 + pushedButton))} ) ;break;
-  //       // case '*': setInputNumber2((prevInputNumber2:string)=>{return(parseInt(inputNumber1) * parseInt(prevInputNumber2 + pushedButton))} ) ;break;
-  //       // case '/': setInputNumber2((prevInputNumber2:string)=>{return(parseInt(inputNumber1) / parseInt(prevInputNumber2 + pushedButton))} ) ;break;
-  //       // case '%': setInputNumber2((prevInputNumber2:string)=>{return(parseInt(inputNumber1) % parseInt(prevInputNumber2 + pushedButton))} ) ;break;
-  //       // case 'C': setInput('') ;break;
-  //     }
-  //   }else{
-      
-  //   // console.log(inputNumber1)
-  // }
-    
-    // console.log('a'+inputNumber);
-    if(inputNumber2.length > 0){
-      // console.log(inputNumber2)
-      (setResult(()=>{return(parseInt(inputNumber1) + parseInt(inputNumber2))}) )
-    }
-  }
-
-  const onOperatorHandler=(pushedOperator:string)=>{
-    setOperator(pushedOperator);
-    
-  }
+      return prevInput + pushedButton;
+    });
+  };
 
   return (
-    <div className="test"> 
-    <Indicator data={input}/>
-    <Indicator data={result}/>
-    <KeypadWrapper onSelect={onSelectHandler} onOperator={onSelectHandler}/>
+    <div className="test">
+      <Indicator data={input} />
+      <KeypadWrapper onSelect={onSelectHandler} onOperator={onSelectHandler} />
     </div>
   );
-}
+};
 
 export default App;
